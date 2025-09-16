@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  web:
+    image: php:8.1-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: vulnapp
+      MYSQL_USER: vuln
+      MYSQL_PASSWORD: vulnpass
+    volumes:
+      - ./db_init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "3307:3306"
